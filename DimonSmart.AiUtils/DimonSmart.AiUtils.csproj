@@ -7,13 +7,13 @@
     <Configuration>Release</Configuration>
     <IsPackable>true</IsPackable>
     <OutputType>Library</OutputType>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Title>DimonSmart.AiUtils</Title>
     <Description>A library for extracting JSON from LLM responses. This library ensures proper JSON extraction even when an LLM response includes additional text such as explanations, phrases like "here is your JSON," or similar content.</Description>
     <Authors>DimonSmart</Authors>
     <Company>DimonSmart</Company>
     <PackageProjectUrl>https://github.com/DimonSmart/AI.Utils</PackageProjectUrl>
-    <PackageIcon>YourIcon.png</PackageIcon>
+    <PackageIcon>ai_utils.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/DimonSmart/AI.Utils</RepositoryUrl>
     <PackageTags>JSON;LLM;AI;ResponseProcessing;TextParsing;Utils</PackageTags>
