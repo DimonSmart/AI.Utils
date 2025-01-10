@@ -4,11 +4,37 @@
     {
         public static string ExtractJson(string? text)
         {
+            return ExtractAllJsons(text).OrderByDescending(json => json.Length).FirstOrDefault() ?? string.Empty;
+        }
+
+        public static IReadOnlyCollection<string> ExtractAllJsons(string? text)
+        {
+            var jsons = new List<string>();
+            if (string.IsNullOrEmpty(text))
+                return jsons;
+            for (var i = 0; i < text.Length; i++)
+            {
+                var result = ExtractJson(i, text);
+                if (!string.IsNullOrEmpty(result))
+                {
+                    jsons.Add(result);
+                    i += result.Length - 1;
+                }
+            }
+            return jsons;
+        }
+
+        /// <summary>
+        /// Extracts all valid JSON fragments (objects or arrays) from the text.
+        /// Returns an empty list if none found.
+        /// </summary>
+        public static string ExtractJson(int start, string? text)
+        {
             if (string.IsNullOrEmpty(text))
                 return string.Empty;
 
             // We scan for top-level '{' or '['
-            for (var i = 0; i < text.Length; i++)
+            for (var i = start; i < text.Length; i++)
             {
                 var ch = text[i];
                 var open = ch == '{' || ch == '[';

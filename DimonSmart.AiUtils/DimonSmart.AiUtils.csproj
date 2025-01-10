@@ -4,6 +4,29 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Configuration>Release</Configuration>
+    <IsPackable>true</IsPackable>
+    <OutputType>Library</OutputType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Title>DimonSmart.AiUtils</Title>
+    <Description>A library for extracting JSON from LLM responses. This library ensures proper JSON extraction even when an LLM response includes additional text such as explanations, phrases like "here is your JSON," or similar content.</Description>
+    <Authors>DimonSmart</Authors>
+    <Company>DimonSmart</Company>
+    <PackageProjectUrl>https://github.com/DimonSmart/AI.Utils</PackageProjectUrl>
+    <PackageIcon>YourIcon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/DimonSmart/AI.Utils</RepositoryUrl>
+    <PackageTags>JSON;LLM;AI;ResponseProcessing;TextParsing;Utils</PackageTags>
+    <PackageLicenseExpression>0BSD</PackageLicenseExpression>
+    <LangVersion>latest</LangVersion>
+    <Deterministic>true</Deterministic>
+    <PackageVersion>1.$([System.DateTime]::UtcNow.ToString("yyMdd")).$([System.DateTime]::UtcNow.ToString("HHmm"))</PackageVersion>
+    <Version>1.$([System.DateTime]::UtcNow.ToString("yyMdd")).$([System.DateTime]::UtcNow.ToString("HHmm"))</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="True" PackagePath="/" />
+    <None Include="ai_utils.png" Pack="True" PackagePath="/" />
+  </ItemGroup>
 
 </Project>

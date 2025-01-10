@@ -26,7 +26,7 @@ namespace DimonSmart.AiUtils.Tests
         }
 
         [Fact]
-        public void ExtractJson_ReturnsFirstJson_WhenMultipleJsonsExist()
+        public void ExtractJson_ReturnsLongestJson_WhenMultipleJsonsExist()
         {
             var firstJson = "{\"first\": true}";
             var secondJson = "{\"second\": false}";
@@ -34,7 +34,7 @@ namespace DimonSmart.AiUtils.Tests
 
             var result = JsonExtractor.ExtractJson(input);
 
-            Assert.Equal(firstJson, result);
+            Assert.Equal(secondJson, result);
         }
     }
 }
