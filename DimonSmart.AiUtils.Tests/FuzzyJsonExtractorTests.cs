@@ -8,8 +8,9 @@ namespace DimonSmart.AiUtils.Tests
         private static readonly Random _rand = new Random();
         private readonly ITestOutputHelper _output = output;
 
-        [Fact]
+        [Fact(Skip = "Manual Research")]
         [Trait("Category", "Manual")]
+        
         public void FuzzyTest_ExtractJson()
         {
             for (var iteration = 0; iteration < 100000; iteration++)
