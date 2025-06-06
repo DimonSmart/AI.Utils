@@ -33,6 +33,11 @@ namespace DimonSmart.AiUtils
             public string Thoughts => string.Join("\n", _thoughtSegments);
 
             /// <summary>
+            /// Gets the individual thought segments as an immutable list.
+            /// </summary>
+            public IReadOnlyList<string> ThoughtSegments => _thoughtSegments;
+
+            /// <summary>
             /// Gets the combined answer text joined by newline.
             /// </summary>
             public string Answer => string.Join("\n", _answerLines);
