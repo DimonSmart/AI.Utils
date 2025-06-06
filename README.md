@@ -47,8 +47,9 @@ Extracts and separates content within `<think>` tags from the main response text
 
 ```csharp
 var result = ThinkTagParser.ExtractThinkAnswer(responseText);
-string thoughts = result.Thoughts;    // Combined content from all <think> tags
-string answer = result.Answer;        // Clean text without the think tags
+string thoughts = result.Thoughts;            // Combined content from all <think> tags
+var segments = result.ThoughtSegments;        // Individual thought segments
+string answer = result.Answer;                // Clean text without the think tags
 ```
 
 Example:
@@ -56,6 +57,7 @@ Example:
 var input = "Let me think about this. <think>First consider option A</think> The answer is B <think>Option B is better because...</think>";
 var result = ThinkTagParser.ExtractThinkAnswer(input);
 // result.Thoughts contains: "First consider option A\nOption B is better because..."
+// result.ThoughtSegments == ["First consider option A", "Option B is better because..."]
 // result.Answer contains: "Let me think about this. The answer is B"
 ```
 

@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace DimonSmart.AiUtils
 {
@@ -31,6 +32,11 @@ namespace DimonSmart.AiUtils
             /// Gets the combined thought content joined by newline.
             /// </summary>
             public string Thoughts => string.Join("\n", _thoughtSegments);
+
+            /// <summary>
+            /// Gets the individual thought segments as an immutable list.
+            /// </summary>
+            public IReadOnlyList<string> ThoughtSegments => _thoughtSegments;
 
             /// <summary>
             /// Gets the combined answer text joined by newline.

@@ -13,6 +13,7 @@
 
             // Assert
             Assert.Equal("This is a thought", result.Thoughts);
+            Assert.Equal(new[] { "This is a thought" }, result.ThoughtSegments);
             Assert.Equal("Before text after text.", result.Answer);
         }
 
@@ -27,6 +28,7 @@
 
             // Assert
             Assert.Equal(string.Empty, result.Thoughts);
+            Assert.Empty(result.ThoughtSegments);
             Assert.Equal("Text without think tag.", result.Answer);
         }
 
@@ -41,6 +43,7 @@
 
             // Assert
             Assert.Equal("First thought\nSecond thought", result.Thoughts);
+            Assert.Equal(new[] { "First thought", "Second thought" }, result.ThoughtSegments);
             Assert.Equal("Start middle end.", result.Answer);
         }
     }
