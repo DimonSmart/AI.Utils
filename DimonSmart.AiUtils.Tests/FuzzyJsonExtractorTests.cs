@@ -10,7 +10,7 @@ namespace DimonSmart.AiUtils.Tests
 
         [Fact(Skip = "Manual Research")]
         [Trait("Category", "Manual")]
-        
+
         public void FuzzyTest_ExtractJson()
         {
             for (var iteration = 0; iteration < 100000; iteration++)
