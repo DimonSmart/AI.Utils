@@ -4,11 +4,12 @@ namespace DimonSmart.AiUtils
 {
     public static class ThinkTagParser
     {
-        // Compiled regex to extract content inside <think> tags for performance optimization.
+        // Compiled regex to match think tags with surrounding newlines
         private static readonly Regex ThinkContentRegex = new Regex(@"<think>(.*?)<\/think>", RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex ThinkWithSurroundingNewlinesRegex = new Regex(@"(\n*)(<think>.*?<\/think>)(\n*)", RegexOptions.Singleline | RegexOptions.Compiled);
 
-        // Compiled regex to collapse multiple whitespace characters into a single space.
-        private static readonly Regex MultipleSpacesRegex = new Regex(@"\s{2,}", RegexOptions.Compiled);
+        // Compiled regex to collapse multiple spaces (but not newlines) into a single space.
+        private static readonly Regex MultipleSpacesRegex = new Regex(@"[ \t]{2,}", RegexOptions.Compiled);
 
         /// <summary>
         /// Represents the result of parsing the input.
@@ -65,17 +66,62 @@ namespace DimonSmart.AiUtils
                 }
             }
 
-            // Replace all <think> sections with a space.
-            var answerWithExtraSpaces = ThinkContentRegex.Replace(input, " ");
-            // Collapse multiple spaces and trim the result.
-            var answerCleaned = MultipleSpacesRegex.Replace(answerWithExtraSpaces, " ").Trim();
-            // Split the cleaned answer text by newline characters.
-            // If there are no newline characters, this will result in a single element.
+            // Replace think tags with intelligent newline handling
+            var answerText = ThinkWithSurroundingNewlinesRegex.Replace(input, match =>
+            {
+                var newlinesBefore = match.Groups[1].Value;
+                var thinkTag = match.Groups[2].Value;
+                var newlinesAfter = match.Groups[3].Value;
+
+                // Count newlines before and after
+                var beforeCount = newlinesBefore.Length;
+                var afterCount = newlinesAfter.Length;
+
+                // If think tag is inline (no newlines around), replace with space
+                if (beforeCount == 0 && afterCount == 0)
+                {
+                    return " ";
+                }
+
+                // Keep the larger of the two newline groups, but if both are significant (>1), 
+                // preserve the structure by returning the max count
+                var keepNewlines = Math.Max(beforeCount, afterCount);
+
+                // Но если у нас есть переводы строк с обеих сторон, то нам нужно сохранить
+                // достаточно переводов строк чтобы maintain the spacing structure
+                if (beforeCount > 1 && afterCount > 1)
+                {
+                    // Сохраняем максимальное количество минус 1 (так как удаляем тег)
+                    keepNewlines = Math.Max(beforeCount, afterCount);
+                }
+                else if (beforeCount > 0 && afterCount > 0)
+                {
+                    // Если есть переводы строк с обеих сторон, но не больше 1
+                    keepNewlines = Math.Max(beforeCount, afterCount);
+                }
+                else
+                {
+                    // Если переводы строк только с одной стороны
+                    keepNewlines = beforeCount + afterCount;
+                }
+
+                return new string('\n', keepNewlines);
+            });
+
+            // Collapse multiple spaces (but not newlines)
+            var answerCleaned = MultipleSpacesRegex.Replace(answerText, " ").Trim();
+
+            // Split by lines
             var answerLines = answerCleaned
                 .Split(new[] { '\n' }, StringSplitOptions.None)
                 .Select(line => line.Trim())
-                .Where(line => !string.IsNullOrEmpty(line))
                 .ToList();
+
+            // Remove empty lines only from the beginning and end
+            while (answerLines.Count > 0 && string.IsNullOrEmpty(answerLines[0]))
+                answerLines.RemoveAt(0);
+            while (answerLines.Count > 0 && string.IsNullOrEmpty(answerLines[answerLines.Count - 1]))
+                answerLines.RemoveAt(answerLines.Count - 1);
 
             return new ThinkAnswer(thoughtSegments, answerLines);
         }

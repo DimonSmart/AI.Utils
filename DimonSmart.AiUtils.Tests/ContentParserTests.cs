@@ -46,5 +46,33 @@
             Assert.Equal(new[] { "First thought", "Second thought" }, result.ThoughtSegments);
             Assert.Equal("Start middle end.", result.Answer);
         }
+
+        [Fact]
+        public void ExtractThinkAnswer_WithNewLines_PreservesNewLines()
+        {
+            // Arrange
+            var input = "First line\n<think>Some thought</think>\nSecond line\nThird line";
+
+            // Act
+            var result = ThinkTagParser.ExtractThinkAnswer(input);
+
+            // Assert
+            Assert.Equal("Some thought", result.Thoughts);
+            Assert.Equal("First line\nSecond line\nThird line", result.Answer);
+        }
+
+        [Fact]
+        public void ExtractThinkAnswer_WithMultipleNewLinesAndThinkTags_PreservesStructure()
+        {
+            // Arrange
+            var input = "Line 1\n\n<think>Thought 1</think>\n\nLine 2\n<think>Thought 2</think>\nLine 3";
+
+            // Act
+            var result = ThinkTagParser.ExtractThinkAnswer(input);
+
+            // Assert
+            Assert.Equal("Thought 1\nThought 2", result.Thoughts);
+            Assert.Equal("Line 1\n\nLine 2\nLine 3", result.Answer);
+        }
     }
 }
