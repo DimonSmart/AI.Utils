@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DimonSmart.AiUtils", "DimonSmart.AiUtils\DimonSmart.AiUtils.csproj", "{01F9BD3B-742F-4015-90BB-6F475670104F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DimonSmart.AiUtils.Tests", "DimonSmart.AiUtils.Tests\DimonSmart.AiUtils.Tests.csproj", "{F4358ACE-9754-4A31-8B79-211804DE703F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DImonSmart.AiUtils.SemanticKernel", "DImonSmart.AiUtils.SemanticKernel\DImonSmart.AiUtils.SemanticKernel.csproj", "{9AFCB77E-76E2-4CB9-AAA5-B14084A3B791}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DimonSmart.AiUtils.SemanticKernel.Tests", "DimonSmart.AiUtils.SemanticKernel.Tests\DimonSmart.AiUtils.SemanticKernel.Tests.csproj", "{5BE74E4C-0A20-4A5A-9108-6DE23F2D3F75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +25,19 @@ Global
 		{F4358ACE-9754-4A31-8B79-211804DE703F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4358ACE-9754-4A31-8B79-211804DE703F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4358ACE-9754-4A31-8B79-211804DE703F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AFCB77E-76E2-4CB9-AAA5-B14084A3B791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AFCB77E-76E2-4CB9-AAA5-B14084A3B791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AFCB77E-76E2-4CB9-AAA5-B14084A3B791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AFCB77E-76E2-4CB9-AAA5-B14084A3B791}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BE74E4C-0A20-4A5A-9108-6DE23F2D3F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE74E4C-0A20-4A5A-9108-6DE23F2D3F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE74E4C-0A20-4A5A-9108-6DE23F2D3F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE74E4C-0A20-4A5A-9108-6DE23F2D3F75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3E32842C-4A15-4562-B6CD-8E584AF10CF9}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,50 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    name: Build and Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        dotnet-version: ['10.0.x']
+      fail-fast: false
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Restore dependencies
+      run: dotnet restore DimonSmart.AiUtils.sln
+
+    - name: Build solution
+      run: dotnet build DimonSmart.AiUtils.sln --configuration Release --no-restore
+
+    - name: Run tests with coverage
+      run: dotnet test DimonSmart.AiUtils.sln --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory:"./test-results"
+
+    - name: Install ReportGenerator tool
+      if: matrix.os == 'ubuntu-latest'
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+    - name: Generate coverage report
+      if: matrix.os == 'ubuntu-latest'
+      run: reportgenerator -reports:"./test-results/**/coverage.cobertura.xml" -targetdir:"./coverage-report" -reporttypes:"Html;Cobertura"
+
+    - name: Upload coverage report as artifact
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: ./coverage-report/
