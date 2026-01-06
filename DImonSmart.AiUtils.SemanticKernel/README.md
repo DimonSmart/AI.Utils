@@ -19,6 +19,7 @@ Semantic Kernel provides built-in reducers (for example, truncation reducers), b
 - Optionally keep a small tail of regular (non-tool) messages.
 
 This package provides a reducer designed for that pattern.
+It also provides a tool-invocation loop that calls the reducer between function invocations to keep long processing cycles stable and bounded.
 
 ### LongCycleFunctionCallReducer
 
@@ -82,4 +83,35 @@ using Microsoft.SemanticKernel.ChatCompletion;
 
 var reducer = new LongCycleFunctionCallReducer(lastToolsToKeep: 2, lastMessagesToKeep: 4);
 var reduced = await reducer.ReduceAsync(history) ?? history;
+```
+
+### ReducedToolInvocationLoop
+
+Runs a tool-calling loop with optional history reduction before sending the prompt and between tool calls.
+This is useful when a single assistant turn contains multiple tool calls and you need to reduce history after each tool result.
+
+#### Options
+
+- `MaxTurns`: safety limit for the loop.
+- `EnforceSingleToolCallPerTurn`: if true, logs a warning when multiple calls are returned.
+- `Reducer`: optional reducer called before each LLM call and after each tool result.
+- `Settings`: optional prompt settings (autoInvoke is always forced to false).
+- `StopOnToolResult`: optional predicate to stop the loop on a specific tool result.
+
+#### Example
+
+```csharp
+var res = await new ReducedToolInvocationLoop(
+        chat,
+        kernel,
+        new ToolLoopOptions
+        {
+            StopOnToolResult = (call, result) =>
+                $"{call.PluginName}.{call.FunctionName}".Equals("Lamp.NeedToBlinkLight", StringComparison.OrdinalIgnoreCase) &&
+                result.Result is bool b && b == false
+        })
+    .RunAsync(history);
+
+Console.WriteLine(res.Reason);
+Console.WriteLine(res.FinalAssistantMessage?.Content);
 ```
